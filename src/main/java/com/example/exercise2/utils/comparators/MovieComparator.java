@@ -25,14 +25,14 @@ public class MovieComparator {
     public boolean compareMovieLists(List<MovieDto> moviesNeo4j, List<MovieDto> moviesSql) {
 
         if (moviesNeo4j.size() == moviesSql.size()) {
-            return moviesNeo4j.stream().anyMatch(two -> moviesSql.stream()
-                    .allMatch(one -> compareMovies(one, two)));
+//            return moviesNeo4j.stream().anyMatch(two -> moviesSql.stream()
+//                    .allMatch(one -> compareMovies(one, two)));
 
-//            for (MovieDto m1 : moviesNeo4j) {
-//                for (MovieDto m2 : moviesSql) {
-//                    return compareMovies(m1, m2);
-//                }
-//            }
+            for (MovieDto m1 : moviesNeo4j) {
+                for (MovieDto m2 : moviesSql) {
+                    return compareMovies(m1, m2);
+                }
+            }
         }
         return false;
     }
