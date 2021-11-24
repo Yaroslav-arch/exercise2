@@ -19,21 +19,25 @@ public class MoviesDownloader {
     String sqlUrl;
     @Value("${movie.urn}")
     String urn;
+    @Value("${neo4j.port}")
+    String neo4jPort;
+    @Value("${sql.port}")
+    String sqlPort;
 
     public MoviesDownloader() {
     }
 
     public String getMoviesFromNeo4j() throws IOException, InterruptedException {
-        return getMovies(neo4jUrl);
+        return getMovies(neo4jUrl, neo4jPort);
     }
 
     public String getMoviesFromSql() throws IOException, InterruptedException {
-        return getMovies(sqlUrl);
+        return getMovies(sqlUrl, sqlPort);
     }
 
-    private String getMovies(String url) throws IOException, InterruptedException {
+    private String getMovies(String url, String port) throws IOException, InterruptedException {
         URI uri = UriComponentsBuilder.newInstance()
-                .scheme("http").host(url).path(urn).build().toUri();
+                .scheme("http").host(url).port(port).path(urn).build().toUri();
 
         HttpRequest request = HttpRequest.newBuilder().uri(uri).GET().build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
