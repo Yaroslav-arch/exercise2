@@ -11,6 +11,9 @@ public class GenreDto {
     private Long id;
     private String name;
 
+    public GenreDto() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

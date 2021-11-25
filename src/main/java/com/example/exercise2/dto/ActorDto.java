@@ -9,6 +9,9 @@ public class ActorDto {
     private Long id;
     private String name;
 
+    public ActorDto() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

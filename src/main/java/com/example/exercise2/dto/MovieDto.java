@@ -28,6 +28,9 @@ public class MovieDto {
     @NotNull
     private List<UserDto> users;
 
+    public MovieDto() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

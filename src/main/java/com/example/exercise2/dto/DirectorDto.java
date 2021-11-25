@@ -11,6 +11,9 @@ public class DirectorDto {
     private Long id;
     private String name;
 
+    public DirectorDto() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
