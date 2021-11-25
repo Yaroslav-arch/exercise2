@@ -4,6 +4,7 @@ import com.example.exercise2.dto.MovieDto;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,16 +24,17 @@ public class MovieComparator {
     }
 
     public boolean compareMovieLists(List<MovieDto> moviesNeo4j, List<MovieDto> moviesSql) {
-
+//        List<Boolean> flag = new ArrayList<>();
         if (moviesNeo4j.size() == moviesSql.size()) {
-//            return moviesNeo4j.stream().anyMatch(two -> moviesSql.stream()
-//                    .allMatch(one -> compareMovies(one, two)));
+            return moviesNeo4j.stream().anyMatch(one -> moviesSql.stream()
+                    .anyMatch(two -> compareMovies(one, two)));
 
-            for (MovieDto m1 : moviesNeo4j) {
-                for (MovieDto m2 : moviesSql) {
-                    return compareMovies(m1, m2);
-                }
-            }
+//            for (MovieDto m1 : moviesNeo4j) {
+//                for (MovieDto m2 : moviesSql) {
+//                    flag.add(compareMovies(m1, m2));
+//                }
+//            }
+//            return flag.contains(Boolean.FALSE);
         }
         return false;
     }

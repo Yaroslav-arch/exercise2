@@ -6,5 +6,7 @@ import java.util.List;
 
 @Value
 public class MoviesDtoList {
+
     List<MovieDto> movies;
+//    MovieDto[] movies;
 }
