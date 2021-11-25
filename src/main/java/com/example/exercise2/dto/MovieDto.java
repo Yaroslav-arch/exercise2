@@ -3,6 +3,7 @@ package com.example.exercise2.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class MovieDto {
     @NotNull
     private Long id;
@@ -27,9 +29,6 @@ public class MovieDto {
     private List<GenreDto> genres;
     @NotNull
     private List<UserDto> users;
-
-    public MovieDto() {
-    }
 
     @Override
     public boolean equals(Object o) {

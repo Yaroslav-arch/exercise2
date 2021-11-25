@@ -2,15 +2,14 @@ package com.example.exercise2.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ActorDto {
     private Long id;
     private String name;
-
-    public ActorDto() {
-    }
 
     @Override
     public boolean equals(Object o) {

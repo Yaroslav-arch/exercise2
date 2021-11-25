@@ -2,17 +2,16 @@ package com.example.exercise2.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Long id;
     private String nickname;
-
-    public UserDto() {
-    }
 
     @Override
     public boolean equals(Object o) {
