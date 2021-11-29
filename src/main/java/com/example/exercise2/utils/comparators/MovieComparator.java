@@ -48,4 +48,5 @@ public class MovieComparator {
                 && userComparator.compareUserLists(movieNeo4j.getUsers(), movieSql.getUsers());
 
     }
+
 }
