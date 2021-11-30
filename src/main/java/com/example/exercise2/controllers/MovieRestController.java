@@ -1,5 +1,6 @@
 package com.example.exercise2.controllers;
 
+import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
 import com.example.exercise2.dto.MovieDto;
 import com.example.exercise2.dto.MovieDtoList;
 import com.example.exercise2.service.MovieService;
@@ -16,26 +17,27 @@ import java.util.List;
 @RestController
 public class MovieRestController {
 
-    @Inject
-    @Named("neo4jUri")
-    private URI neo4jUri;
-
-    @Inject()
-    @Named("sqlUri")
-    private URI sqlUri;
-
+    private final URI neo4jUri;
+    private final URI sqlUri;
     private final MovieService movieService;
     private final RestTemplate restTemplate;
 
     @Inject
-    public MovieRestController(MovieService movieService, RestTemplate restTemplate) {
+    public MovieRestController(MovieService movieService, RestTemplate restTemplate, @Named("neo4jUri") URI neo4jUri, @Named("sqlUri") URI sqlUri) {
         this.movieService = movieService;
         this.restTemplate = restTemplate;
+        this.neo4jUri=neo4jUri;
+        this.sqlUri=sqlUri;
     }
 
     @GetMapping("/check")
     public boolean getAllMovies() {
         return movieService.compareMovieLists(getMovies(neo4jUri), getMovies(sqlUri));
+    }
+
+    @GetMapping("/check/result")
+    public List<MovieComparisonResult> getComparisonResult(){
+        return movieService.compareWithResult(getMovies(neo4jUri), getMovies(sqlUri));
     }
 
     private List<MovieDto> getMovies(URI uri) {

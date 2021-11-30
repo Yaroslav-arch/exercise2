@@ -1,6 +1,7 @@
 package com.example.exercise2.utils.comparators;
 
 import com.example.exercise2.dto.UserDto;
+import com.example.exercise2.dto.comparisonResults.UserComparisonResult;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,5 +13,26 @@ public class UserComparator {
             return usersSql.containsAll(usersNeo4j);
         }
         return false;
+    }
+
+    public UserComparisonResult getUsersDifference(List<UserDto> usersNeo4j, List<UserDto> usersSql) {
+        UserComparisonResult result = new UserComparisonResult();
+        for (UserDto m1 : usersNeo4j) {
+            if (!usersSql.contains(m1)) {
+                result.getNeo4jUsers().add(m1);
+                if (!result.isFlag()){
+                    result.setFlag(true);
+                }
+            }
+        }
+        for (UserDto m2 : usersSql) {
+            if (!usersNeo4j.contains(m2)) {
+                result.getSqlUsers().add(m2);
+                if (!result.isFlag()){
+                    result.setFlag(true);
+                }
+            }
+        }
+        return result;
     }
 }

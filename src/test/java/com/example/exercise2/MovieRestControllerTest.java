@@ -46,7 +46,7 @@ public class MovieRestControllerTest {
     private URI sqlUri;
 
 
-    private MovieDtoList movieDtoList = new MovieDtoList(new ArrayList<>());
+    private final MovieDtoList movieDtoList = new MovieDtoList(new ArrayList<>());
 
     @BeforeEach
     public void init() {
