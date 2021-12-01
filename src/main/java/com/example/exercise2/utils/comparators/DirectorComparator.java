@@ -19,7 +19,7 @@ public class DirectorComparator {
         DirectorComparisonResult result = new DirectorComparisonResult();
         for (DirectorDto m1 : directorsNeo4j) {
             if (!directorsSql.contains(m1)){
-                result.getNeo4jDirectors().add(m1);
+                result.getNeo4j().add(m1);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }
@@ -27,7 +27,7 @@ public class DirectorComparator {
         }
         for (DirectorDto m2 : directorsSql) {
             if (!directorsNeo4j.contains(m2)){
-                result.getSqlDirectors().add(m2);
+                result.getSql().add(m2);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }

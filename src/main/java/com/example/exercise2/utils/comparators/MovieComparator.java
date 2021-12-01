@@ -1,6 +1,7 @@
 package com.example.exercise2.utils.comparators;
 
 import com.example.exercise2.dto.MovieDto;
+import com.example.exercise2.dto.MovieDtoList;
 import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,10 @@ public class MovieComparator {
         this.userComparator = userComparator;
     }
 
-    public boolean compareMovieLists(List<MovieDto> moviesNeo4j, List<MovieDto> moviesSql) {
+    public boolean compareMovieLists(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
 //        List<Boolean> flag = new ArrayList<>();
+        List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
+        List<MovieDto> moviesSql = movieDtoListSql.getMovies();
         if (moviesNeo4j.size() == moviesSql.size()) {
             return moviesNeo4j.stream().anyMatch(one -> moviesSql.stream()
                     .anyMatch(two -> compareMovies(one, two)));
@@ -50,7 +53,9 @@ public class MovieComparator {
 
     }
 
-    public List<MovieComparisonResult> compareWithResult(List<MovieDto> moviesNeo4j, List<MovieDto> moviesSql) {
+    public List<MovieComparisonResult> compareWithResult(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
+        List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
+        List<MovieDto> moviesSql = movieDtoListSql.getMovies();
         List<MovieComparisonResult> results = new ArrayList<>();
         MovieComparisonResult result = new MovieComparisonResult();
 

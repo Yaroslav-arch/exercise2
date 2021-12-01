@@ -18,6 +18,8 @@ public class MovieServiceTest {
     private MovieService movieService;
     static List<MovieDto> movies = new ArrayList<>();
     static List<MovieDto> otherMovies = new ArrayList<>();
+    static MovieDtoList movieDtoList1 = new MovieDtoList();
+    static MovieDtoList movieDtoList2 = new MovieDtoList();
 
     @BeforeAll
     static void setup() {
@@ -37,12 +39,15 @@ public class MovieServiceTest {
         MovieDto movieDto2 = MovieDto.builder().id(2L).name("Lethal Weapon").actors(actorDtoList).directors(directors).genres(genres).users(users).build();
         movies.add(movieDto1);
         movies.add(movieDto2);
+        movieDtoList1.setMovies(movies);
         otherMovies.add(movieDto1);
+        movieDtoList2.setMovies(otherMovies);
+
     }
 
     @Test
     public void compareMovieListsTest() {
-        Assertions.assertTrue(movieService.compareMovieLists(movies, movies));
-        Assertions.assertFalse(movieService.compareMovieLists(movies, otherMovies));
+        Assertions.assertTrue(movieService.compareMovieLists(movieDtoList1, movieDtoList1));
+        Assertions.assertFalse(movieService.compareMovieLists(movieDtoList1, movieDtoList2));
     }
 }

@@ -1,7 +1,7 @@
 package com.example.exercise2.service;
 
+import com.example.exercise2.dto.MovieDtoList;
 import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
-import com.example.exercise2.dto.MovieDto;
 import com.example.exercise2.utils.comparators.MovieComparator;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,11 @@ public class MovieService {
         this.comparator = comparator;
     }
 
-    public boolean compareMovieLists(List<MovieDto> neo4jMovies, List<MovieDto> sqlMovies) {
+    public boolean compareMovieLists(MovieDtoList neo4jMovies,MovieDtoList sqlMovies) {
         return comparator.compareMovieLists(neo4jMovies, sqlMovies);
     }
 
-    public List<MovieComparisonResult> compareWithResult(List<MovieDto> neo4jMovies, List<MovieDto> sqlMovies) {
+    public List<MovieComparisonResult> compareWithResult(MovieDtoList neo4jMovies, MovieDtoList sqlMovies) {
         return comparator.compareWithResult(neo4jMovies, sqlMovies);
     }
 }

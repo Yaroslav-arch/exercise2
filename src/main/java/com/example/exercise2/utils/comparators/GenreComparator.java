@@ -19,7 +19,7 @@ public class GenreComparator {
         GenreComparisonResult result = new GenreComparisonResult();
         for (GenreDto m1 : genresNeo4j) {
             if (!genresSql.contains(m1)){
-                result.getNeo4jGenres().add(m1);
+                result.getNeo4j().add(m1);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }
@@ -27,7 +27,7 @@ public class GenreComparator {
         }
         for (GenreDto m2 : genresSql) {
             if (!genresNeo4j.contains(m2)){
-                result.getSqlGenres().add(m2);
+                result.getSql().add(m2);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }

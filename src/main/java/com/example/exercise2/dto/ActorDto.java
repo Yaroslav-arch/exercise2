@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActorDto {
+public class ActorDto extends BasicDto{
     private Long id;
     private String name;
 

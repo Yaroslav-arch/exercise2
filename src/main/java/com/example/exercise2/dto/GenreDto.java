@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenreDto {
+public class GenreDto extends BasicDto{
     private Long id;
     private String name;
 

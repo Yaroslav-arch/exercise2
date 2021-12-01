@@ -9,20 +9,20 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDto extends BasicDto{
     private Long id;
-    private String nickname;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return nickname.equals(userDto.nickname);
+        return name.equals(userDto.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname);
+        return Objects.hash(name);
     }
 }

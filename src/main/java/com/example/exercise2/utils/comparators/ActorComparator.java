@@ -19,7 +19,7 @@ public class ActorComparator {
         ActorComparisonResult result = new ActorComparisonResult();
         for (ActorDto m1 : actorsNeo4j) {
            if (!actorsSql.contains(m1)){
-               result.getNeo4jActors().add(m1);
+               result.getNeo4j().add(m1);
                if (!result.isFlag()){
                    result.setFlag(true);
                }
@@ -27,7 +27,7 @@ public class ActorComparator {
         }
         for (ActorDto m2 : actorsSql) {
             if (!actorsNeo4j.contains(m2)){
-                result.getSqlActors().add(m2);
+                result.getSql().add(m2);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }

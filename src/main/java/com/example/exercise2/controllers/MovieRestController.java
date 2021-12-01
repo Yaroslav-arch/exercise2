@@ -1,8 +1,7 @@
 package com.example.exercise2.controllers;
 
-import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
-import com.example.exercise2.dto.MovieDto;
 import com.example.exercise2.dto.MovieDtoList;
+import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
 import com.example.exercise2.service.MovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +39,9 @@ public class MovieRestController {
         return movieService.compareWithResult(getMovies(neo4jUri), getMovies(sqlUri));
     }
 
-    private List<MovieDto> getMovies(URI uri) {
+    private MovieDtoList getMovies(URI uri) {
 
         ResponseEntity<MovieDtoList> responseEntity = restTemplate.getForEntity(uri, MovieDtoList.class);
-        MovieDtoList movieDtoList = responseEntity.getBody();
-        return movieDtoList.getMovies();
+        return responseEntity.getBody();
     }
 }

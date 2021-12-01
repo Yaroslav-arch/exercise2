@@ -19,7 +19,7 @@ public class UserComparator {
         UserComparisonResult result = new UserComparisonResult();
         for (UserDto m1 : usersNeo4j) {
             if (!usersSql.contains(m1)) {
-                result.getNeo4jUsers().add(m1);
+                result.getNeo4j().add(m1);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }
@@ -27,7 +27,7 @@ public class UserComparator {
         }
         for (UserDto m2 : usersSql) {
             if (!usersNeo4j.contains(m2)) {
-                result.getSqlUsers().add(m2);
+                result.getSql().add(m2);
                 if (!result.isFlag()){
                     result.setFlag(true);
                 }
