@@ -1,5 +1,9 @@
 package com.example.exercise2.dto.comparisonResults;
 
+import com.example.exercise2.dto.ActorDto;
+import com.example.exercise2.dto.DirectorDto;
+import com.example.exercise2.dto.GenreDto;
+import com.example.exercise2.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +19,8 @@ public class MovieComparisonResult {
     private Integer neo4jMovieDuration;
     private Integer sqlMovieDuration;
 
-    private ActorComparisonResult actorsDifference;
-    private DirectorComparisonResult directorsDifference;
-    private GenreComparisonResult genresDifference;
-    private UserComparisonResult usersDifference;
+    private BasicComparisonResult<ActorDto> actorsDifference;
+    private BasicComparisonResult<DirectorDto> directorsDifference;
+    private BasicComparisonResult<GenreDto> genresDifference;
+    private BasicComparisonResult<UserDto> usersDifference;
 }

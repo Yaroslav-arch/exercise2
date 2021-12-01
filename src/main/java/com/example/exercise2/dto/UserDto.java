@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto extends BasicDto{
+public class UserDto extends GenericDto {
     private Long id;
     private String name;
 

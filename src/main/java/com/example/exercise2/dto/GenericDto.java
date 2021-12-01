@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class BasicDto {
+public abstract class GenericDto {
     private Long id;
     private String name;
 

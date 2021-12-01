@@ -1,37 +1,36 @@
 package com.example.exercise2.utils.comparators;
 
-import com.example.exercise2.dto.MovieDto;
-import com.example.exercise2.dto.MovieDtoList;
+import com.example.exercise2.dto.*;
 import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class MovieComparator {
 
-    private final ActorComparator actorComparator;
-    private final DirectorComparator directorComparator;
-    private final GenreComparator genreComparator;
-    private final UserComparator userComparator;
+    private final GenericComparator<ActorDto> actorComparator;
+    private final GenericComparator<DirectorDto> directorComparator;
+    private final GenericComparator<GenreDto> genreComparator;
+    private final GenericComparator<UserDto> userComparator;
 
-    @Inject
-    public MovieComparator(ActorComparator actorComparator, DirectorComparator directorComparator, GenreComparator genreComparator, UserComparator userComparator) {
+    public MovieComparator(GenericComparator<ActorDto> actorComparator, GenericComparator<DirectorDto> directorComparator, GenericComparator<GenreDto> genreComparator, GenericComparator<UserDto> userComparator) {
         this.actorComparator = actorComparator;
         this.directorComparator = directorComparator;
         this.genreComparator = genreComparator;
         this.userComparator = userComparator;
     }
 
-    public boolean compareMovieLists(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
-//        List<Boolean> flag = new ArrayList<>();
-        List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
-        List<MovieDto> moviesSql = movieDtoListSql.getMovies();
-        if (moviesNeo4j.size() == moviesSql.size()) {
-            return moviesNeo4j.stream().anyMatch(one -> moviesSql.stream()
-                    .anyMatch(two -> compareMovies(one, two)));
+
+//    public boolean compareMovieLists(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
+////        List<Boolean> flag = new ArrayList<>();
+//        List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
+//        List<MovieDto> moviesSql = movieDtoListSql.getMovies();
+//        if (moviesNeo4j.size() == moviesSql.size()) {
+//            return moviesNeo4j.stream().anyMatch(one -> moviesSql.stream()
+//                    .anyMatch(two -> compareMovies(one, two)));
 
 //            for (MovieDto m1 : moviesNeo4j) {
 //                for (MovieDto m2 : moviesSql) {
@@ -39,21 +38,21 @@ public class MovieComparator {
 //                }
 //            }
 //            return flag.contains(Boolean.FALSE);
-        }
-        return false;
-    }
+//        }
+//        return false;
+//    }
 
-    private boolean compareMovies(MovieDto movieNeo4j, MovieDto movieSql) {
-        return movieNeo4j.getName().equals(movieSql.getName())
-                && movieNeo4j.getDuration() == movieSql.getDuration()
-                && actorComparator.compareActorLists(movieNeo4j.getActors(), movieSql.getActors())
-                && directorComparator.compareDirectorLists(movieNeo4j.getDirectors(), movieSql.getDirectors())
-                && genreComparator.compareGenreLists(movieNeo4j.getGenres(), movieSql.getGenres())
-                && userComparator.compareUserLists(movieNeo4j.getUsers(), movieSql.getUsers());
+//    private boolean compareMovies(MovieDto movieNeo4j, MovieDto movieSql) {
+//        return movieNeo4j.getName().equals(movieSql.getName())
+//                && movieNeo4j.getDuration() == movieSql.getDuration()
+//                && actorComparator.compareActorLists(movieNeo4j.getActors(), movieSql.getActors())
+//                && directorComparator.compareDirectorLists(movieNeo4j.getDirectors(), movieSql.getDirectors())
+//                && genreComparator.compareGenreLists(movieNeo4j.getGenres(), movieSql.getGenres())
+//                && userComparator.compareUserLists(movieNeo4j.getUsers(), movieSql.getUsers());
+//
+//    }
 
-    }
-
-    public List<MovieComparisonResult> compareWithResult(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
+    public List<MovieComparisonResult> compareWithResult(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
         List<MovieDto> moviesSql = movieDtoListSql.getMovies();
         List<MovieComparisonResult> results = new ArrayList<>();
@@ -81,7 +80,7 @@ public class MovieComparator {
         return results;
     }
 
-    private MovieComparisonResult compareMoviesResult(MovieDto movieNeo4j, MovieDto movieSql) {
+    private MovieComparisonResult compareMoviesResult(MovieDto movieNeo4j, MovieDto movieSql) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
         MovieComparisonResult result = new MovieComparisonResult();
 
@@ -91,10 +90,10 @@ public class MovieComparator {
             result.setStatus("");
         }
 
-        result.setActorsDifference(actorComparator.getActorsDifference(movieNeo4j.getActors(), movieSql.getActors()));
-        result.setDirectorsDifference(directorComparator.getDirectorsDifference(movieNeo4j.getDirectors(), movieSql.getDirectors()));
-        result.setGenresDifference(genreComparator.getGenresDifference(movieNeo4j.getGenres(), movieSql.getGenres()));
-        result.setUsersDifference(userComparator.getUsersDifference(movieNeo4j.getUsers(), movieSql.getUsers()));
+        result.setActorsDifference(actorComparator.getDtoDifference(movieNeo4j.getActors(), movieSql.getActors()));
+        result.setDirectorsDifference(directorComparator.getDtoDifference(movieNeo4j.getDirectors(), movieSql.getDirectors()));
+        result.setGenresDifference(genreComparator.getDtoDifference(movieNeo4j.getGenres(), movieSql.getGenres()));
+        result.setUsersDifference(userComparator.getDtoDifference(movieNeo4j.getUsers(), movieSql.getUsers()));
 
         if (result.getActorsDifference().isFlag()
                 || result.getDirectorsDifference().isFlag()

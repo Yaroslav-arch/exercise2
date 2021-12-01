@@ -3,6 +3,7 @@ package com.example.exercise2.controllers;
 import com.example.exercise2.dto.MovieDtoList;
 import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
 import com.example.exercise2.service.MovieService;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +30,12 @@ public class MovieRestController {
         this.sqlUri=sqlUri;
     }
 
-    @GetMapping("/check")
-    public boolean getAllMovies() {
-        return movieService.compareMovieLists(getMovies(neo4jUri), getMovies(sqlUri));
-    }
+//    @GetMapping("/check")
+//    public boolean getAllMovies() {
+//        return movieService.compareMovieLists(getMovies(neo4jUri), getMovies(sqlUri));
+//    }
 
+    @SneakyThrows
     @GetMapping("/check/result")
     public List<MovieComparisonResult> getComparisonResult(){
         return movieService.compareWithResult(getMovies(neo4jUri), getMovies(sqlUri));
