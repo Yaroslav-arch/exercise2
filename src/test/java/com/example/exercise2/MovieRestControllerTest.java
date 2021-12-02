@@ -66,26 +66,26 @@ public class MovieRestControllerTest {
 
     }
 
-    @Test
-    public void getAllMoviesTest() throws JsonProcessingException {
-
-        mockServer.expect(ExpectedCount.once(),
-                        requestTo(neo4jUri))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(mapper.writeValueAsString(movieDtoList))
-                );
-        mockServer.expect(ExpectedCount.once(),
-                        requestTo(sqlUri))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(mapper.writeValueAsString(movieDtoList))
-                );
-
-        boolean equal = movieRestController.getAllMovies();
-        mockServer.verify();
-        Assertions.assertTrue(equal);
-    }
+//    @Test
+//    public void getAllMoviesTest() throws JsonProcessingException {
+//
+//        mockServer.expect(ExpectedCount.once(),
+//                        requestTo(neo4jUri))
+//                .andExpect(method(HttpMethod.GET))
+//                .andRespond(withStatus(HttpStatus.OK)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(mapper.writeValueAsString(movieDtoList))
+//                );
+//        mockServer.expect(ExpectedCount.once(),
+//                        requestTo(sqlUri))
+//                .andExpect(method(HttpMethod.GET))
+//                .andRespond(withStatus(HttpStatus.OK)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(mapper.writeValueAsString(movieDtoList))
+//                );
+//
+//        boolean equal = movieRestController.getAllMovies();
+//        mockServer.verify();
+//        Assertions.assertTrue(equal);
+//    }
 }

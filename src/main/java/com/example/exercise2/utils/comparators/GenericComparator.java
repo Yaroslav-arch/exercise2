@@ -5,8 +5,6 @@ import com.example.exercise2.dto.GenericDto;
 import com.example.exercise2.dto.comparisonResults.BasicComparisonResult;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Component
@@ -18,8 +16,8 @@ public class GenericComparator<T extends GenericDto> {
         return false;
     }
 
-    public <G extends BasicComparisonResult<T>> G getDtoDifference(List<T> neo4jDtos, List<T> sqlDtos) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        G result = ((Class<G>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1]).getDeclaredConstructor().newInstance();
+    public BasicComparisonResult<T> getDtoDifference(List<T> neo4jDtos, List<T> sqlDtos) {
+        BasicComparisonResult<T> result = new BasicComparisonResult<>();
         for (T m1 : neo4jDtos) {
             if (!sqlDtos.contains(m1)) {
                 result.getNeo4j().add(m1);

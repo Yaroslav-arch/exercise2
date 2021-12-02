@@ -2,9 +2,9 @@ package com.example.exercise2.utils.comparators;
 
 import com.example.exercise2.dto.*;
 import com.example.exercise2.dto.comparisonResults.MovieComparisonResult;
+import com.example.exercise2.utils.MovieStatusEnum;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,42 +52,54 @@ public class MovieComparator {
 //
 //    }
 
-    public List<MovieComparisonResult> compareWithResult(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public List<MovieComparisonResult> compareWithResult(MovieDtoList movieDtoListNeo4j, MovieDtoList movieDtoListSql) {
         List<MovieDto> moviesNeo4j = movieDtoListNeo4j.getMovies();
         List<MovieDto> moviesSql = movieDtoListSql.getMovies();
         List<MovieComparisonResult> results = new ArrayList<>();
         MovieComparisonResult result = new MovieComparisonResult();
+        boolean moviesAreNotEqualFlag = false;
 
         for (MovieDto m1 : moviesNeo4j) {
             for (MovieDto m2 : moviesSql) {
                 if (m1.getName().equals(m2.getName())) {
                     result = compareMoviesResult(m1, m2);
-                    if (!result.getStatus().equals("Movie Lists Are Equal")) {
+                    if (!result.getStatus().equals(MovieStatusEnum.MOVIE_LISTS_ARE_EQUAL)) {
                         result.setMovieName(m1.getName());
                         results.add(result);
+                        moviesAreNotEqualFlag = true;
                     }
                 }
-                if (!moviesSql.contains(m1)) {
-                    result.setMovieName("Only in Neo4j: " + m1.getName());
-                }
-                if (!moviesNeo4j.contains(m2)) {
-                    result.setMovieName("Only in Sql: " + m2.getName());
-                }
-
             }
         }
+        moviesNeo4j.stream()
+                .filter(movieDto -> !moviesSql.contains(movieDto))
+                .map(this::convertMovieToResult)
+                .peek(result1 -> result1.setStatus(MovieStatusEnum.EXISTS_ONLY_IN_NEO4J))
+                .filter(m -> movieNotExistsByName(m, results))
+                .forEach(results::add);
+        moviesSql.stream()
+                .filter(movieDto -> !moviesNeo4j.contains(movieDto))
+                .map(this::convertMovieToResult)
+                .peek(result2 -> result2.setStatus(MovieStatusEnum.EXISTS_ONLY_IN_SQL))
+                .filter(movie -> movieNotExistsByName(movie, results))
+                .forEach(results::add);
 
+
+        if (!moviesAreNotEqualFlag) {
+            result.setStatus(MovieStatusEnum.MOVIE_LISTS_ARE_EQUAL);
+            results.add(result);
+        }
         return results;
     }
 
-    private MovieComparisonResult compareMoviesResult(MovieDto movieNeo4j, MovieDto movieSql) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private MovieComparisonResult compareMoviesResult(MovieDto movieNeo4j, MovieDto movieSql) {
 
         MovieComparisonResult result = new MovieComparisonResult();
 
         if (movieNeo4j.getDuration() != movieSql.getDuration()) {
             result.setNeo4jMovieDuration(movieNeo4j.getDuration());
             result.setSqlMovieDuration(movieSql.getDuration());
-            result.setStatus("");
+            result.setStatus(MovieStatusEnum.HERE_IS_THE_DIFFERENCE);
         }
 
         result.setActorsDifference(actorComparator.getDtoDifference(movieNeo4j.getActors(), movieSql.getActors()));
@@ -99,10 +111,22 @@ public class MovieComparator {
                 || result.getDirectorsDifference().isFlag()
                 || result.getGenresDifference().isFlag()
                 || result.getUsersDifference().isFlag()) {
-            result.setStatus("Here is the difference between the movies");
+            result.setStatus(MovieStatusEnum.HERE_IS_THE_DIFFERENCE);
         }
 
         return result;
+    }
+
+    private MovieComparisonResult convertMovieToResult(MovieDto movie) {
+
+        MovieComparisonResult result = new MovieComparisonResult();
+        result.setMovieName(movie.getName());
+
+        return result;
+    }
+
+    private boolean movieNotExistsByName(MovieComparisonResult movieComparisonResult, List<MovieComparisonResult> results) {
+        return results.stream().noneMatch((r) -> r.getMovieName().equals(movieComparisonResult.getMovieName()));
     }
 
 }

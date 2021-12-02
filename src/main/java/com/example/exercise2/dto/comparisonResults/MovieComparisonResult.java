@@ -4,6 +4,7 @@ import com.example.exercise2.dto.ActorDto;
 import com.example.exercise2.dto.DirectorDto;
 import com.example.exercise2.dto.GenreDto;
 import com.example.exercise2.dto.UserDto;
+import com.example.exercise2.utils.MovieStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieComparisonResult {
 
-    private String status = "Movie Lists Are Equal";
+    private MovieStatusEnum status = MovieStatusEnum.MOVIE_LISTS_ARE_EQUAL;
     private String movieName;
 
     private Integer neo4jMovieDuration;
